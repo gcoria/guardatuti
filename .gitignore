@@ -1,0 +1,19 @@
+# Credentials file
+credentials.json
+
+# Binary files
+guardatuti
+
+# Go specific ignores
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# OS specific files
+.DS_Store
+Thumbs.db 
