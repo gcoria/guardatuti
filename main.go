@@ -4,35 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
 	"math/rand"
 )
-
-type Credential struct {
-	service   string
-	username  string
-	password  string
-	createdAt time.Time
-}
-
-type CredentialList struct {
-	credentials []Credential
-}
-
-func (c *CredentialList) add(credential Credential) {
-	c.credentials = append(c.credentials, credential)
-}
-
-func (c *CredentialList) print() {
-	for _, credential := range c.credentials {
-		string_credential := fmt.Sprintf("|| %s ||  %s  ||  %s  || [%s]", credential.service, credential.username, credential.password, credential.createdAt.Format("2006-01-02 15:04:05"))
-		fmt.Println(strings.Repeat("-", len(string_credential)))
-		fmt.Println(string_credential)
-		fmt.Println(strings.Repeat("-", len(string_credential)))
-	}
-}
 
 func main() {
 	fmt.Println("Hello, World!")
@@ -42,7 +17,8 @@ func main() {
 	for {
 		credential := addCredential(scanner)
 		credentials.add(credential)
-		credentials.print()
+		credentials.save("credentials.json")
+		listCredentials()
 	}
 }
 
@@ -51,12 +27,12 @@ func addCredential(scanner *bufio.Scanner) Credential {
 	fmt.Println("Generate credential")
 	fmt.Println("Insert service name")
 	service := waitForInput(scanner)
-	credential.service = service
+	credential.Service = service
 	fmt.Println("Insert user/email")
 	username := waitForInput(scanner)
-	credential.username = username
-	credential.createdAt = time.Now()
-	credential.password = generatePassword()
+	credential.Username = username
+	credential.CreatedAt = time.Now()
+	credential.Password = generatePassword()
 	return credential
 }
 
@@ -73,9 +49,4 @@ func generatePassword() string {
 		b[i] = letters[rand.Intn(len(letters))]
 	}
 	return string(b)
-}
-
-func saveCredential(credential Credential) {
-	fmt.Println("saving credential....")
-	fmt.Println(credential)
 }
